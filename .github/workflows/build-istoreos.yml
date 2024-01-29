@@ -193,7 +193,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ${{ env.FIRMWARE }}/*
         body: |
-          **This is iStoreOS Firmware for ${{ matrix.ARCHITECTURE }}**
+          **This is iStoreOS for ${{ matrix.ARCHITECTURE }}**
           ### 📒 固件信息
           💻 架构: ${{ matrix.ARCHITECTURE }}
           📂 源码: ${{ env.REPO_URL }}
