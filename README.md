@@ -1,2 +1,3 @@
-# Build-iStoreOS
-使用 GitHub Actions 云编译 定制 iStoreOS 固件
+<div align="center">
+<h1>iStoreOS — 多设备固件云编译</h1>
+
