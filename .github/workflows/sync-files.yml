@@ -25,7 +25,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        keep_latest: 3
+        keep_latest: 1
         delete_tags: false
 
     - name: 下载架构编译配置文件
