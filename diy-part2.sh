@@ -13,7 +13,7 @@
 # 修改openwrt登陆地址,把下面的 192.168.10.1 修改成你想要的就可以了
 # sed -i 's/192.168.100.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
-if [ "${{ matrix.ARCHITECTURE }}" = "X86" ]; then
+if [ "${1}" = "X86" ]; then
   echo "IP_ADDRESS=192.168.5.1" >> $GITHUB_ENV
   sed -i 's/192.168.100.1/192.168.5.1/g' package/base-files/files/bin/config_generate
 else
