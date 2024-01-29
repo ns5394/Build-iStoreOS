@@ -165,6 +165,7 @@ jobs:
 
     - name: 整理固件文件
       id: organize
+      if: steps.compile.outputs.status == 'success'
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
