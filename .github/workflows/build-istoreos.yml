@@ -153,8 +153,8 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
-        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
         echo "::set-output name=status::success"
+        echo "DATE=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
 
     - name: 检查磁盘空间
       if: (!cancelled())
@@ -164,12 +164,12 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt-${{ matrix.ARCHITECTURE }}-${{ env.FILE_DATE }}
+        name: OpenWrt-${{ matrix.ARCHITECTURE }}
         path: openwrt/bin
 
     - name: 整理固件文件
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: steps.compile.outputs.status == 'success'
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -178,31 +178,27 @@ jobs:
 
     - name: 上传固件目录
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_FIRMWARE != 'true'
       with:
         name: OpenWrt-firmware-${{ matrix.ARCHITECTURE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: 生成发布标签
-      id: tag
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
-      run: |
-        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H.%M")"
-        touch release.txt
-        echo "
-        💻 架构: ${{ matrix.ARCHITECTURE }}
-        📂 源码: ${{ env.REPO_URL }}
-        🌳 分支: ${{ env.REPO_BRANCH }}
-        ⏱️ 编译时间: $(date +"%Y年%m月%d日%H时%M分")
-        🌐 管理地址: ${{ env.IP_ADDRESS }}
-        👤 用户名: root
-        🔒 密码: 默认无密码" >> release.txt
-        echo "::set-output name=status::success"
-
-    - name: 自动发布固件到 Releases
-      uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+    - name: 发布固件到 Releases
+      if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE == 'true'
+      uses: ncipollo/release-action@v1
       with:
-        tag_name: ${{ matrix.ARCHITECTURE }}-${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
+        name: R${{ env.DATE }} for ${{ matrix.ARCHITECTURE }}
+        allowUpdates: true
+        tag: ${{ matrix.ARCHITECTURE }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: ${{ env.FIRMWARE }}/*
+        body: |
+          **This is iStoreOS Firmware for ${{ matrix.ARCHITECTURE }}**
+          ### 📒 固件信息
+          💻 架构: ${{ matrix.ARCHITECTURE }}
+          📂 源码: ${{ env.REPO_URL }}
+          🌳 分支: ${{ env.REPO_BRANCH }}
+          ⏱️ 编译时间: $(date +"%Y年%m月%d日%H时%M分")
+          🌐 管理地址: ${{ env.IP_ADDRESS }}
+          👤 用户名: root
+          🔒 密码: 默认无密码
