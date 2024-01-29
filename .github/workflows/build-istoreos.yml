@@ -173,13 +173,13 @@ jobs:
 
     - name: 上传固件目录
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE != 'true'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE = 'true'
       with:
         name: OpenWrt-firmware-${{ matrix.ARCHITECTURE }}
         path: ${{ env.FIRMWARE }}
 
     - name: 发布固件到 Releases
-      if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE == 'true'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true'
       uses: ncipollo/release-action@v1
       with:
         name: R${{ env.DATE }} for ${{ matrix.ARCHITECTURE }}
