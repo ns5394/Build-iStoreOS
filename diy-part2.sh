@@ -19,7 +19,6 @@ if [ "${1}" = "X86" ]; then
 else
   echo "IP_ADDRESS=192.168.8.1" >> $GITHUB_ENV
   sed -i 's/192.168.100.1/192.168.8.1/g' package/base-files/files/bin/config_generate
-  exit 1
 fi    
 
 
