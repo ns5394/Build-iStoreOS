@@ -115,11 +115,11 @@ jobs:
           du -sh /mnt/build_dir
           echo "软链接成功！"
 
-    - name: 更新 feeds
-      run: cd openwrt && ./scripts/feeds update -a
-
-    - name: 安装 feeds
-      run: cd openwrt && ./scripts/feeds install -a
+    - name: 更新&安装 feeds
+      run: |
+          cd openwrt 
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
 
     - name: 加载自定义配置
       env:
@@ -194,7 +194,7 @@ jobs:
         📂 源码: ${{ env.REPO_URL }}
         🌳 分支: ${{ env.REPO_BRANCH }}
         ⏱️ 编译时间: $(date +"%Y年%m月%d日%H时%M分")
-        🌐 管理地址: 192.168.8.1
+        🌐 管理地址: ${{ env.IP_ADDRESS }}
         👤 用户名: root
         🔒 密码: 默认无密码" >> release.txt
         echo "::set-output name=status::success"
