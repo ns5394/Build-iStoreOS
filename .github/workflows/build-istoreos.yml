@@ -143,6 +143,9 @@ jobs:
       run: |
         cd openwrt
         make defconfig
+        # 更改分区大小
+        sed -i 's/^CONFIG_TARGET_KERNEL_PARTSIZE.*/CONFIG_TARGET_KERNEL_PARTSIZE=32/' .config
+        sed -i 's/^CONFIG_TARGET_ROOTFS_PARTSIZE.*/CONFIG_TARGET_ROOTFS_PARTSIZE=480/' .config
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
