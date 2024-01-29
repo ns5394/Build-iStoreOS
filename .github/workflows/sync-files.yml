@@ -49,7 +49,6 @@ jobs:
 
     - name: 删除自动发布的旧固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 2
         delete_tags: true
