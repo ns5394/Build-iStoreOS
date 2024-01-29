@@ -27,14 +27,17 @@ jobs:
         wget -O ./X86/feeds.conf https://fw0.koolcenter.com/iStoreOS/x86_64_efi/feeds.conf
         wget -O ./X86/.config https://fw0.koolcenter.com/iStoreOS/x86_64_efi/config.buildinfo
 
-        rm -rf ./.nojekyll
+        mkdir configs
+        mv ./RK33/* ./cconfigs/RK33
+        mv ./RK35/* ./cconfigs/RK35
+        mv ./X86/* ./cconfigs/X86
 
     - name: 同步配置
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: master
-        publish_dir: ./
+        publish_dir: ./configs
         user_name: 'GitHub Action'
         user_email: 'github-actions[bot]@github.com'
         exclude_assets: ''
