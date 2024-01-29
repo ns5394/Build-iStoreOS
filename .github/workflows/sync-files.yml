@@ -28,9 +28,9 @@ jobs:
         wget -O ./X86/.config https://fw0.koolcenter.com/iStoreOS/x86_64_efi/config.buildinfo
 
         mkdir configs
-        mv ./RK33/* ./cconfigs/RK33
-        mv ./RK35/* ./cconfigs/RK35
-        mv ./X86/* ./cconfigs/X86
+        mv ./RK33 ./cconfigs
+        mv ./RK35 ./cconfigs
+        mv ./X86 ./cconfigs
 
     - name: 同步配置
       uses: peaceiris/actions-gh-pages@v3
