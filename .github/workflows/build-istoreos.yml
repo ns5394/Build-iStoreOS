@@ -173,7 +173,7 @@ jobs:
 
     - name: 上传固件目录
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE = 'true'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true'
       with:
         name: OpenWrt-firmware-${{ matrix.ARCHITECTURE }}
         path: ${{ env.FIRMWARE }}
