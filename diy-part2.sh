@@ -31,11 +31,6 @@ sed -i 's/$1$5mjCdAB1$Uk1sNbwoqfHxUmzRIeuZK1:0/:/g' package/base-files/files/etc
 # ttyd 自动登录
 sed -i "s?/bin/login?/usr/libexec/login.sh?g" package/feeds/packages/ttyd/files/ttyd.config
 
-# 更改分区大小
-sed -i 's/^CONFIG_TARGET_KERNEL_PARTSIZE.*/CONFIG_TARGET_KERNEL_PARTSIZE=32/' .config
-sed -i 's/^CONFIG_TARGET_ROOTFS_PARTSIZE.*/CONFIG_TARGET_ROOTFS_PARTSIZE=480/' .config
-
-
 # 添加自定义软件包
 # echo '
 # CONFIG_PACKAGE_luci-app-mosdns=y
