@@ -87,11 +87,12 @@ jobs:
         git clone $REPO_URL -b ${{ env.REPO_BRANCH }} openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         
-    - name: 缓存构建动作
-      uses: klever1988/cachewrtbuild@main
+    - name: 缓存编译工具链
+      if: env.CACHE_TOOLCHAIN == 'true'
+      uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: 'true'
-        mixkey: ${{ matrix.os }}-${{ matrix.ARCHITECTURE }}-${{ matrix.REPO_BRANCH }}
+        ccache: false
+        mixkey: ${{ matrix.os }}-${{ matrix.ARCHITECTURE }}-${{ env.REPO_BRANCH }}
         prefix: ${{ github.workspace }}/openwrt
 
     - name: 加载自定义 feeds
