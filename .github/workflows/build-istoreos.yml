@@ -193,7 +193,7 @@ jobs:
           💻 架构: ${{ matrix.ARCHITECTURE }}
           📂 源码: ${{ env.REPO_URL }}
           🌳 分支: ${{ env.REPO_BRANCH }}
-          ⏱️ 编译时间: $(date +"%Y年%m月%d日%H时%M分")
+          ⏱️ 编译时间: ${{ env.DATE }}
           🌐 管理地址: ${{ env.IP_ADDRESS }}
           👤 用户名: root
-          🔒 密码: 默认无密码
+          🔒 密码: 默认无
