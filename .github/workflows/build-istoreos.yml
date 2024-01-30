@@ -18,8 +18,7 @@ env:
   CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  UPLOAD_BIN_DIR: true
-  UPLOAD_FIRMWARE: true
+  UPLOAD_BIN_DIR: false
   UPLOAD_RELEASE: true
   CACHE_TOOLCHAIN: true
   TZ: Asia/Shanghai
@@ -184,7 +183,7 @@ jobs:
 
     - name: 上传固件目录
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE != 'true'
       with:
         name: OpenWrt-firmware-${{ matrix.ARCHITECTURE }}
         path: ${{ env.FIRMWARE }}
